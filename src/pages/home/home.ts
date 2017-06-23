@@ -8,7 +8,7 @@ import { ParticleProvider } from '../../providers/particle/particle';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  public var1: any;
+  public lux: any;
   private subscription: any = null;
   
   constructor(public navCtrl: NavController, public particle: ParticleProvider) {
@@ -28,14 +28,23 @@ export class HomePage {
   ionViewDidEnter() {
     if (this.particle.device) {
         this.cancelSubscription();
-        this.particle.pollVariable("var1").subscribe(
-            (value) => { this.var1 = value; },
-            (error) => { console.log("Error reading var1"); },
-            () => { console.log("Stopped polling var1"); }
+        this.particle.pollVariable("lux").subscribe(
+            (value) => { this.lux = value; },
+            (error) => { console.log("Error reading lux"); },
+            () => { console.log("Stopped polling lux"); }
         );
     }
   }
+  getLux() {
+    this.particle.getVariable("lux").then(
+      (value)=>{
+        this.lux=value;
+      },
+      (error)=>{
 
+      }
+    )
+  }
   login() {
     this.navCtrl.push( LoginPage );
   }
